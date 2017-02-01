@@ -1,5 +1,7 @@
 grammar grammer;
 
+tokens: .* EOF;
+
 IDENTIFIER: [A-Za-z]+ ;
 
 INTLITERAL: '/d'+;
