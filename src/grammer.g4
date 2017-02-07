@@ -6,11 +6,11 @@ WS: (' ' | '\t' | '\r' | '\n' ) -> skip;
 
 INTLITERAL: [0-9]+;
 
-FLOATLITERAL: '/d'*.'/d'+ ;
+FLOATLITERAL: [0-9]*'.'[0-9]+ ;
 
 STRINGLITERAL: '"'.*?'"';
 
-COMMENT: '--'.*?'\n';
+COMMENT: '--'.*?'\n' -> skip;
 
 KEYWORD: 'PROGRAM'
     |'BEGIN'
@@ -31,7 +31,7 @@ KEYWORD: 'PROGRAM'
     |'STRING'
     |'FLOAT';
 
-IDENTIFIER: [A-Za-z]+ ;
+IDENTIFIER: [A-Za-z]+[0-9]* ;
 
 OPERATOR:':='
     |'+'

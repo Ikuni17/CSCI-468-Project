@@ -29,12 +29,12 @@ public class Main
             // their literal values. This is not quite set up as you
             // want for the grading script - you will need to change
             // the format a bit.
-            org.antlr.v4.runtime.Token token = null;
-            do {
-                token = lexer.nextToken();
+            org.antlr.v4.runtime.Token token = lexer.nextToken();
+            while (token.getType() != org.antlr.v4.runtime.Token.EOF){
                 System.out.printf("Token Type: %s%n", vocab.getSymbolicName(token.getType()));
                 System.out.printf("Value: %s%n", token.getText());
-            } while (token.getType() != org.antlr.v4.runtime.Token.EOF);
+                token = lexer.nextToken();
+            }
 
 
         } catch (Exception e) {
