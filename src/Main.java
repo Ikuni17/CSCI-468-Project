@@ -32,8 +32,8 @@ public class Main
             org.antlr.v4.runtime.Token token = null;
             do {
                 token = lexer.nextToken();
-                System.out.println("\t" + vocab.getSymbolicName(token.getType()) +
-                        "\t\t" + token.getText());
+                System.out.printf("Token Type: %s%n", vocab.getSymbolicName(token.getType()));
+                System.out.printf("Value: %s%n", token.getText());
             } while (token.getType() != org.antlr.v4.runtime.Token.EOF);
 
 

@@ -1,16 +1,16 @@
 grammar grammer;
 
-tokens: .* EOF;
+tokens: .*? EOF;
 
-IDENTIFIER: [A-Za-z]+ ;
+WS: (' ' | '\t' | '\r' | '\n' ) -> skip;
 
-INTLITERAL: '/d'+;
+INTLITERAL: [0-9]+;
 
 FLOATLITERAL: '/d'*.'/d'+ ;
 
-STRINGLITERAL: '"'.*'"';
+STRINGLITERAL: '"'.*?'"';
 
-COMMENT: '--'.*'\n';
+COMMENT: '--'.*?'\n';
 
 KEYWORD: 'PROGRAM'
     |'BEGIN'
@@ -30,6 +30,8 @@ KEYWORD: 'PROGRAM'
     |'VOID'
     |'STRING'
     |'FLOAT';
+
+IDENTIFIER: [A-Za-z]+ ;
 
 OPERATOR:':='
     |'+'

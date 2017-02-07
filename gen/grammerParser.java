@@ -16,8 +16,8 @@ public class grammerParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		IDENTIFIER=1, INTLITERAL=2, FLOATLITERAL=3, STRINGLITERAL=4, COMMENT=5, 
-		KEYWORD=6, OPERATOR=7;
+		WS=1, INTLITERAL=2, FLOATLITERAL=3, STRINGLITERAL=4, COMMENT=5, KEYWORD=6, 
+		IDENTIFIER=7, OPERATOR=8;
 	public static final int
 		RULE_tokens = 0;
 	public static final String[] ruleNames = {
@@ -27,8 +27,8 @@ public class grammerParser extends Parser {
 	private static final String[] _LITERAL_NAMES = {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "IDENTIFIER", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "COMMENT", 
-		"KEYWORD", "OPERATOR"
+		null, "WS", "INTLITERAL", "FLOATLITERAL", "STRINGLITERAL", "COMMENT", 
+		"KEYWORD", "IDENTIFIER", "OPERATOR"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -93,33 +93,30 @@ public class grammerParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof grammerListener ) ((grammerListener)listener).exitTokens(this);
 		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof grammerVisitor ) return ((grammerVisitor<? extends T>)visitor).visitTokens(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final TokensContext tokens() throws RecognitionException {
 		TokensContext _localctx = new TokensContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_tokens);
-		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(5);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IDENTIFIER) | (1L << INTLITERAL) | (1L << FLOATLITERAL) | (1L << STRINGLITERAL) | (1L << COMMENT) | (1L << KEYWORD) | (1L << OPERATOR))) != 0)) {
-				{
-				{
-				setState(2);
-				matchWildcard();
-				}
+			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1+1 ) {
+					{
+					{
+					setState(2);
+					matchWildcard();
+					}
+					} 
 				}
 				setState(7);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
+				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
 			}
 			setState(8);
 			match(EOF);
@@ -137,9 +134,9 @@ public class grammerParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t\r\4\2\t\2\3\2\7"+
-		"\2\6\n\2\f\2\16\2\t\13\2\3\2\3\2\3\2\2\2\3\2\2\2\f\2\7\3\2\2\2\4\6\13"+
-		"\2\2\2\5\4\3\2\2\2\6\t\3\2\2\2\7\5\3\2\2\2\7\b\3\2\2\2\b\n\3\2\2\2\t\7"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\n\r\4\2\t\2\3\2\7"+
+		"\2\6\n\2\f\2\16\2\t\13\2\3\2\3\2\3\2\3\7\2\3\2\2\2\f\2\7\3\2\2\2\4\6\13"+
+		"\2\2\2\5\4\3\2\2\2\6\t\3\2\2\2\7\b\3\2\2\2\7\5\3\2\2\2\b\n\3\2\2\2\t\7"+
 		"\3\2\2\2\n\13\7\2\2\3\13\3\3\2\2\2\3\7";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
