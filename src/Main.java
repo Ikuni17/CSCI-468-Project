@@ -13,10 +13,11 @@ public class Main
             // replace the 'System.in' with a file pointer to work
             // with the grading script.
 
-            org.antlr.v4.runtime.CharStream stream = new org.antlr.v4.runtime.ANTLRInputStream("Asdf asdf");
+            //org.antlr.v4.runtime.CharStream stream = new org.antlr.v4.runtime.ANTLRInputStream("Asdf asdf");
+            org.antlr.v4.runtime.ANTLRFileStream fileStream = new org.antlr.v4.runtime.ANTLRFileStream("in/loop.micro");
 
             // Create a new lexer on the specified 'CharStream'
-            DemoLexer lexer = new DemoLexer(stream);
+            grammerLexer lexer = new grammerLexer(fileStream);
 
             // Lexer types are enumerated, so we need to create a
             // 'Vocabulary' to lookup the symbol names from the
