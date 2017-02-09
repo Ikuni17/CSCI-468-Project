@@ -1,4 +1,4 @@
-grammar grammer;
+grammar lexerGrammar;
 
 tokens: .*? EOF;
 
