@@ -1,6 +1,6 @@
 grammar lexerGrammar;
 
-tokens: .*? EOF;
+start: .*? EOF;
 
 WS: (' ' | '\t' | '\r' | '\n' ) -> skip;
 

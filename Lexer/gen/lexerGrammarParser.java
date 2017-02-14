@@ -19,9 +19,9 @@ public class lexerGrammarParser extends Parser {
 		WS=1, INTLITERAL=2, FLOATLITERAL=3, STRINGLITERAL=4, COMMENT=5, KEYWORD=6, 
 		IDENTIFIER=7, OPERATOR=8;
 	public static final int
-		RULE_tokens = 0;
+		RULE_start = 0;
 	public static final String[] ruleNames = {
-		"tokens"
+		"start"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -79,25 +79,25 @@ public class lexerGrammarParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class TokensContext extends ParserRuleContext {
+	public static class StartContext extends ParserRuleContext {
 		public TerminalNode EOF() { return getToken(lexerGrammarParser.EOF, 0); }
-		public TokensContext(ParserRuleContext parent, int invokingState) {
+		public StartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_tokens; }
+		@Override public int getRuleIndex() { return RULE_start; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof lexerGrammarListener ) ((lexerGrammarListener)listener).enterTokens(this);
+			if ( listener instanceof lexerGrammarListener ) ((lexerGrammarListener)listener).enterStart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof lexerGrammarListener ) ((lexerGrammarListener)listener).exitTokens(this);
+			if ( listener instanceof lexerGrammarListener ) ((lexerGrammarListener)listener).exitStart(this);
 		}
 	}
 
-	public final TokensContext tokens() throws RecognitionException {
-		TokensContext _localctx = new TokensContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_tokens);
+	public final StartContext start() throws RecognitionException {
+		StartContext _localctx = new StartContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_start);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
