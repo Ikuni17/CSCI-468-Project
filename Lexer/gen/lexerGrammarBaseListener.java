@@ -15,13 +15,13 @@ public class lexerGrammarBaseListener implements lexerGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTokens(lexerGrammarParser.TokensContext ctx) { }
+	@Override public void enterStart(lexerGrammarParser.StartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTokens(lexerGrammarParser.TokensContext ctx) { }
+	@Override public void exitStart(lexerGrammarParser.StartContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

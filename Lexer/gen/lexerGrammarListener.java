@@ -7,13 +7,13 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface lexerGrammarListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link lexerGrammarParser#tokens}.
+	 * Enter a parse tree produced by {@link lexerGrammarParser#start}.
 	 * @param ctx the parse tree
 	 */
-	void enterTokens(lexerGrammarParser.TokensContext ctx);
+	void enterStart(lexerGrammarParser.StartContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link lexerGrammarParser#tokens}.
+	 * Exit a parse tree produced by {@link lexerGrammarParser#start}.
 	 * @param ctx the parse tree
 	 */
-	void exitTokens(lexerGrammarParser.TokensContext ctx);
+	void exitStart(lexerGrammarParser.StartContext ctx);
 }
