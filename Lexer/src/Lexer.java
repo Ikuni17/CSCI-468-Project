@@ -5,7 +5,9 @@ February 8, 2017
 */
 
 import org.antlr.runtime.tree.ParseTree;
+import org.antlr.v4.gui.Trees;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class Lexer
@@ -25,15 +27,25 @@ public class Lexer
             // enumerated value. Note: The 'EOF' token has a value
             // of -1, and all other reules are enumerated from 0.
 
-            Vocabulary vocab = lexer.getVocabulary();
+
+            //Vocabulary vocab = lexer.getVocabulary();
             lexerGrammarParser parser = new lexerGrammarParser(tokens);
             lexerGrammarParser.StartContext stuff = parser.start();
 
-            ParseTreeWalker walker = new ParseTreeWalker();
+
+            /*parser.removeErrorListeners();
+            parser.setErrorHandler(new BailErrorStrategy());*/
+
+            /*ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(new lexerGrammarBaseListener(), stuff);
-            walker.walk(new lexerGrammarBaseListener(), stuff);
+            walker.walk(new lexerGrammarBaseListener(), stuff);*/
+
+
 
             System.out.println(parser.getNumberOfSyntaxErrors());
+
+
+            //Trees.inspect(stuff,parser);
             //System.out.println(stuff.toStringTree(parser));
 
 
