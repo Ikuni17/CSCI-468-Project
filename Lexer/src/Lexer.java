@@ -30,7 +30,7 @@ public class Lexer
 
             //Vocabulary vocab = lexer.getVocabulary();
             lexerGrammarParser parser = new lexerGrammarParser(tokens);
-            lexerGrammarParser.StartContext stuff = parser.start();
+            lexerGrammarParser.ProgramContext stuff = parser.program();
 
 
             /*parser.removeErrorListeners();
