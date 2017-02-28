@@ -10,10 +10,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.atn.ParserATNSimulator;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-public class Lexer
-{
-    public static void main(String[] args) throws Exception
-    {
+public class Lexer {
+    public static void main(String[] args) throws Exception {
         try {
             // Read in the micro file from the command line arguments
             org.antlr.v4.runtime.ANTLRFileStream fileStream = new org.antlr.v4.runtime.ANTLRFileStream(args[0]);
@@ -30,19 +28,24 @@ public class Lexer
 
             //Vocabulary vocab = lexer.getVocabulary();
             lexerGrammarParser parser = new lexerGrammarParser(tokens);
+            parser.removeParseListeners();
+            parser.removeErrorListeners();
             lexerGrammarParser.ProgramContext stuff = parser.program();
 
-
-            /*parser.removeErrorListeners();
-            parser.setErrorHandler(new BailErrorStrategy());*/
+            /*parser.setErrorHandler(new BailErrorStrategy());*/
 
             /*ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(new lexerGrammarBaseListener(), stuff);
             walker.walk(new lexerGrammarBaseListener(), stuff);*/
 
 
-
-            System.out.println(parser.getNumberOfSyntaxErrors());
+            int errors = parser.getNumberOfSyntaxErrors();
+            //System.out.println(errors);
+            if (errors > 0) {
+                System.out.println("Not accepted");
+            } else {
+                System.out.println("Accepted");
+            }
 
 
             //Trees.inspect(stuff,parser);
@@ -57,8 +60,6 @@ public class Lexer
                 System.out.printf("Value: %s%n", token.getText());
                 token = lexer.nextToken();
             }*/
-
-
 
 
         } catch (Exception e) {
