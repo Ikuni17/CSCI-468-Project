@@ -2267,14 +2267,14 @@ public class lexerGrammarParser extends Parser {
 	}
 
 	public static class While_stmtContext extends ParserRuleContext {
+		public CondContext cond() {
+			return getRuleContext(CondContext.class,0);
+		}
 		public DeclContext decl() {
 			return getRuleContext(DeclContext.class,0);
 		}
 		public Stmt_listContext stmt_list() {
 			return getRuleContext(Stmt_listContext.class,0);
-		}
-		public CondContext cond() {
-			return getRuleContext(CondContext.class,0);
 		}
 		public While_stmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2298,15 +2298,17 @@ public class lexerGrammarParser extends Parser {
 			{
 			setState(292);
 			match(T__29);
-			{
 			setState(293);
-			cond();
-			}
+			match(T__10);
 			setState(294);
-			decl();
+			cond();
 			setState(295);
-			stmt_list();
+			match(T__11);
 			setState(296);
+			decl();
+			setState(297);
+			stmt_list();
+			setState(298);
 			match(T__30);
 			}
 		}
@@ -2344,23 +2346,23 @@ public class lexerGrammarParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(301);
+			setState(303);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
 			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					{
-					setState(298);
+					setState(300);
 					matchWildcard();
 					}
 					} 
 				}
-				setState(303);
+				setState(305);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
 			}
-			setState(304);
+			setState(306);
 			match(EOF);
 			}
 		}
@@ -2400,7 +2402,7 @@ public class lexerGrammarParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3)\u0135\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3)\u0137\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -2420,18 +2422,18 @@ public class lexerGrammarParser extends Parser {
 		"\3\37\3\37\5\37\u00f0\n\37\3 \3 \3 \3 \3 \3!\3!\3!\3!\5!\u00fb\n!\3\""+
 		"\3\"\3\"\3\"\3\"\5\"\u0102\n\"\3#\3#\3#\3#\3#\3#\3#\5#\u010b\n#\3$\3$"+
 		"\3%\3%\3&\3&\3&\3&\3&\3&\3&\3&\3&\3\'\3\'\3\'\3\'\3\'\5\'\u011f\n\'\3"+
-		"(\3(\3(\3(\3)\3)\3*\3*\3*\3*\3*\3*\3+\7+\u012e\n+\f+\16+\u0131\13+\3+"+
-		"\3+\3+\3\u012f\4\66:,\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,."+
-		"\60\62\64\668:<>@BDFHJLNPRT\2\6\3\2\t\n\3\2\23\24\3\2\25\26\3\2\32\37"+
-		"\u0122\2V\3\2\2\2\4\\\3\2\2\2\6^\3\2\2\2\bh\3\2\2\2\nj\3\2\2\2\fp\3\2"+
-		"\2\2\16r\3\2\2\2\20v\3\2\2\2\22z\3\2\2\2\24|\3\2\2\2\26\u0084\3\2\2\2"+
-		"\30\u008e\3\2\2\2\32\u0090\3\2\2\2\34\u0098\3\2\2\2\36\u009e\3\2\2\2 "+
-		"\u00a0\3\2\2\2\"\u00a8\3\2\2\2$\u00af\3\2\2\2&\u00b4\3\2\2\2(\u00ba\3"+
+		"(\3(\3(\3(\3)\3)\3*\3*\3*\3*\3*\3*\3*\3*\3+\7+\u0130\n+\f+\16+\u0133\13"+
+		"+\3+\3+\3+\3\u0131\4\66:,\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&"+
+		"(*,.\60\62\64\668:<>@BDFHJLNPRT\2\6\3\2\t\n\3\2\23\24\3\2\25\26\3\2\32"+
+		"\37\u0124\2V\3\2\2\2\4\\\3\2\2\2\6^\3\2\2\2\bh\3\2\2\2\nj\3\2\2\2\fp\3"+
+		"\2\2\2\16r\3\2\2\2\20v\3\2\2\2\22z\3\2\2\2\24|\3\2\2\2\26\u0084\3\2\2"+
+		"\2\30\u008e\3\2\2\2\32\u0090\3\2\2\2\34\u0098\3\2\2\2\36\u009e\3\2\2\2"+
+		" \u00a0\3\2\2\2\"\u00a8\3\2\2\2$\u00af\3\2\2\2&\u00b4\3\2\2\2(\u00ba\3"+
 		"\2\2\2*\u00bc\3\2\2\2,\u00bf\3\2\2\2.\u00c3\3\2\2\2\60\u00c9\3\2\2\2\62"+
 		"\u00cf\3\2\2\2\64\u00d3\3\2\2\2\66\u00d6\3\2\2\28\u00e0\3\2\2\2:\u00e3"+
 		"\3\2\2\2<\u00ef\3\2\2\2>\u00f1\3\2\2\2@\u00fa\3\2\2\2B\u0101\3\2\2\2D"+
 		"\u010a\3\2\2\2F\u010c\3\2\2\2H\u010e\3\2\2\2J\u0110\3\2\2\2L\u011e\3\2"+
-		"\2\2N\u0120\3\2\2\2P\u0124\3\2\2\2R\u0126\3\2\2\2T\u012f\3\2\2\2VW\7\3"+
+		"\2\2N\u0120\3\2\2\2P\u0124\3\2\2\2R\u0126\3\2\2\2T\u0131\3\2\2\2VW\7\3"+
 		"\2\2WX\5\4\3\2XY\7\4\2\2YZ\5\6\4\2Z[\7\5\2\2[\3\3\2\2\2\\]\7(\2\2]\5\3"+
 		"\2\2\2^_\5\b\5\2_`\5\36\20\2`\7\3\2\2\2ab\5\n\6\2bc\5\b\5\2ci\3\2\2\2"+
 		"de\5\16\b\2ef\5\b\5\2fi\3\2\2\2gi\3\2\2\2ha\3\2\2\2hd\3\2\2\2hg\3\2\2"+
@@ -2490,12 +2492,13 @@ public class lexerGrammarParser extends Parser {
 		"\2\u011b\u011c\5$\23\2\u011c\u011f\3\2\2\2\u011d\u011f\3\2\2\2\u011e\u0119"+
 		"\3\2\2\2\u011e\u011d\3\2\2\2\u011fM\3\2\2\2\u0120\u0121\5\64\33\2\u0121"+
 		"\u0122\5P)\2\u0122\u0123\5\64\33\2\u0123O\3\2\2\2\u0124\u0125\t\5\2\2"+
-		"\u0125Q\3\2\2\2\u0126\u0127\7 \2\2\u0127\u0128\5N(\2\u0128\u0129\5\b\5"+
-		"\2\u0129\u012a\5$\23\2\u012a\u012b\7!\2\2\u012bS\3\2\2\2\u012c\u012e\13"+
-		"\2\2\2\u012d\u012c\3\2\2\2\u012e\u0131\3\2\2\2\u012f\u0130\3\2\2\2\u012f"+
-		"\u012d\3\2\2\2\u0130\u0132\3\2\2\2\u0131\u012f\3\2\2\2\u0132\u0133\7\2"+
-		"\2\3\u0133U\3\2\2\2\23hz\u0084\u008e\u0098\u009e\u00af\u00b4\u00ba\u00dd"+
-		"\u00ea\u00ef\u00fa\u0101\u010a\u011e\u012f";
+		"\u0125Q\3\2\2\2\u0126\u0127\7 \2\2\u0127\u0128\7\r\2\2\u0128\u0129\5N"+
+		"(\2\u0129\u012a\7\16\2\2\u012a\u012b\5\b\5\2\u012b\u012c\5$\23\2\u012c"+
+		"\u012d\7!\2\2\u012dS\3\2\2\2\u012e\u0130\13\2\2\2\u012f\u012e\3\2\2\2"+
+		"\u0130\u0133\3\2\2\2\u0131\u0132\3\2\2\2\u0131\u012f\3\2\2\2\u0132\u0134"+
+		"\3\2\2\2\u0133\u0131\3\2\2\2\u0134\u0135\7\2\2\3\u0135U\3\2\2\2\23hz\u0084"+
+		"\u008e\u0098\u009e\u00af\u00b4\u00ba\u00dd\u00ea\u00ef\u00fa\u0101\u010a"+
+		"\u011e\u0131";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

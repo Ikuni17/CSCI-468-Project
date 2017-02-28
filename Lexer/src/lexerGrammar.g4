@@ -60,7 +60,7 @@ compop            : '<' | '>' | '=' | '!=' | '<=' | '>=';
 
 
 /* While statements */
-while_stmt       : 'WHILE' ( cond ) decl stmt_list 'ENDWHILE';
+while_stmt       : 'WHILE' '(' cond ')' decl stmt_list 'ENDWHILE';
 
 start: .*? EOF;
 

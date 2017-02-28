@@ -1,14 +1,12 @@
 /*
 Group 1: Will Cassella, Woody Melling, Bradley White
-CSCI 468: Step 1, Lexer
-February 8, 2017
+CSCI 468: Step 2, Parser
+February 27, 2017
 */
 
-import org.antlr.runtime.tree.ParseTree;
-import org.antlr.v4.gui.Trees;
+
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.ParserATNSimulator;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 
 public class Lexer {
     public static void main(String[] args) throws Exception {
@@ -20,39 +18,23 @@ public class Lexer {
             lexerGrammarLexer lexer = new lexerGrammarLexer(fileStream);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-            // Lexer types are enumerated, so we need to create a
-            // 'Vocabulary' to lookup the symbol names from the
-            // enumerated value. Note: The 'EOF' token has a value
-            // of -1, and all other reules are enumerated from 0.
-
-
             //Vocabulary vocab = lexer.getVocabulary();
+            // Create a parser from the stream of tokens
             lexerGrammarParser parser = new lexerGrammarParser(tokens);
-            parser.removeParseListeners();
+            // Remove the error listener to not interfere with the output stream
             parser.removeErrorListeners();
-            lexerGrammarParser.ProgramContext stuff = parser.program();
+            // Parse from the beginning of the rules
+            lexerGrammarParser.ProgramContext startContext = parser.program();
 
-            /*parser.setErrorHandler(new BailErrorStrategy());*/
-
-            /*ParseTreeWalker walker = new ParseTreeWalker();
-            walker.walk(new lexerGrammarBaseListener(), stuff);
-            walker.walk(new lexerGrammarBaseListener(), stuff);*/
-
-
+            // Get the amount of syntax errors from the input file and print the correct output
             int errors = parser.getNumberOfSyntaxErrors();
-            //System.out.println(errors);
             if (errors > 0) {
                 System.out.println("Not accepted");
             } else {
                 System.out.println("Accepted");
             }
 
-
-            //Trees.inspect(stuff,parser);
-            //System.out.println(stuff.toStringTree(parser));
-
-
-            // Print each token and its value
+            // Print each token and its value, used for Step1
             /*org.antlr.v4.runtime.Token token = lexer.nextToken();
             while (token.getType() != org.antlr.v4.runtime.Token.EOF){
 
