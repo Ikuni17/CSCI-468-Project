@@ -6,6 +6,7 @@ February 27, 2017
 
 
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 
 public class Lexer {
@@ -24,26 +25,10 @@ public class Lexer {
             // Remove the error listener to not interfere with the output stream
             parser.removeErrorListeners();
             // Parse from the beginning of the rules
-            lexerGrammarParser.ProgramContext startContext = parser.program();
 
-            // Get the amount of syntax errors from the input file and print the correct output
-            int errors = parser.getNumberOfSyntaxErrors();
-            if (errors > 0) {
-                System.out.println("Not accepted");
-            } else {
-                System.out.println("Accepted");
-            }
-
-            // Print each token and its value, used for Step1
-            /*org.antlr.v4.runtime.Token token = lexer.nextToken();
-            while (token.getType() != org.antlr.v4.runtime.Token.EOF){
-
-                System.out.printf("Token Type: %s%n", vocab.getSymbolicName(token.getType()));
-                System.out.printf("Value: %s%n", token.getText());
-                token = lexer.nextToken();
-            }*/
-
-
+            ParseTreeWalker walker = new ParseTreeWalker();
+            Listener listener = new Listener();
+            walker.walk(listener, parser.program());
         } catch (Exception e) {
             // General catch to handle any faulty lexing
             System.out.println("Lexing failed: " + e);
