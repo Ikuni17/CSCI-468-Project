@@ -1,3 +1,5 @@
+import org.antlr.v4.misc.OrderedHashMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,7 +13,7 @@ public class SymbolTable
         _parent = parent;
         _children = new ArrayList<>();
         _scope_name = scope_name;
-        _symbols = new HashMap<>();
+        _symbols = new OrderedHashMap<>();
 
         if (parent != null)
         {
@@ -53,12 +55,15 @@ public class SymbolTable
     @Override
     public String toString()
     {
-        String result = _parent != null ? _parent.toString() + "\n" : "";
-
-        result += "Symbol table " + _scope_name + "\n";
+        String result = "Symbol table " + _scope_name + "\n";
         for (Symbol entry : _symbols.values())
         {
             result += entry.toString() + "\n";
+        }
+
+        for (SymbolTable child : _children)
+        {
+            result += "\n" + child.toString();
         }
 
         return result;
@@ -67,5 +72,5 @@ public class SymbolTable
     private SymbolTable _parent;
     private ArrayList<SymbolTable> _children;
     private String _scope_name;
-    private HashMap<String, Symbol> _symbols;
+    private OrderedHashMap<String, Symbol> _symbols;
 }

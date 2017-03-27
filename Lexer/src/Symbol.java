@@ -34,7 +34,7 @@ public class Symbol
     @Override
     public String toString()
     {
-        return "name" + _name + " type " + _type + (_value != null ? " value " + _value : "");
+        return "name " + _name + " type " + _type + (_value != null ? " value " + _value : "");
     }
 
     private String _type;

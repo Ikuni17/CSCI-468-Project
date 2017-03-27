@@ -11,7 +11,8 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 public class Lexer {
     public static void main(String[] args) throws Exception {
-        try {
+        try
+        {
             // Read in the micro file from the command line arguments
             org.antlr.v4.runtime.ANTLRFileStream fileStream = new org.antlr.v4.runtime.ANTLRFileStream(args[0]);
 
@@ -29,7 +30,11 @@ public class Lexer {
             ParseTreeWalker walker = new ParseTreeWalker();
             Listener listener = new Listener();
             walker.walk(listener, parser.program());
-        } catch (Exception e) {
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (Exception e) {
             // General catch to handle any faulty lexing
             System.out.println("Lexing failed: " + e);
         }
