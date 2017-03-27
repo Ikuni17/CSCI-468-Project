@@ -4,8 +4,6 @@
 public class Listener extends lexerGrammarBaseListener
 {
     public SymbolTable current_scope;
-    public String decl_type;
-    public boolean in_var_decl = false;
     public int block_id = 1;
 
     public Listener()
@@ -27,23 +25,19 @@ public class Listener extends lexerGrammarBaseListener
     @Override
     public void enterVar_decl(lexerGrammarParser.Var_declContext ctx)
     {
-        decl_type = ctx.var_type().getText();
-        in_var_decl = true;
-    }
+        String var_type = ctx.var_type().getText();
 
-    @Override
-    public void exitVar_decl(lexerGrammarParser.Var_declContext ctx)
-    {
-        in_var_decl = false;
-    }
+        // Add the first id
+        Symbol id_sym = new Symbol(var_type, ctx.id_list().id().getText());
+        current_scope.add(id_sym.get_name(), id_sym);
 
-    @Override
-    public void enterId(lexerGrammarParser.IdContext ctx)
-    {
-        if (in_var_decl)
+        // Add the remainder of the id list
+        lexerGrammarParser.Id_tailContext tail = ctx.id_list().id_tail();
+        while (tail.getChildCount() != 0)
         {
-            Symbol sym = new Symbol(decl_type, ctx.getText());
-            current_scope.add(sym.get_name(), sym);
+            Symbol tail_sym = new Symbol(var_type, tail.id().getText());
+            current_scope.add(tail_sym.get_name(), tail_sym);
+            tail = tail.id_tail();
         }
     }
 

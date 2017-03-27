@@ -55,15 +55,15 @@ public class SymbolTable
     @Override
     public String toString()
     {
-        String result = "Symbol table " + _scope_name + "\n";
+        String result = "Symbol table " + _scope_name;
         for (Symbol entry : _symbols.values())
         {
-            result += entry.toString() + "\n";
+            result += "\n" + entry.toString();
         }
 
         for (SymbolTable child : _children)
         {
-            result += "\n" + child.toString();
+            result += "\n\n" + child.toString();
         }
 
         return result;
