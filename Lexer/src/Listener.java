@@ -25,14 +25,9 @@ public class Listener extends lexerGrammarBaseListener
     }
 
     @Override
-    public void enterVar_type(lexerGrammarParser.Var_typeContext ctx)
-    {
-        decl_type = ctx.getText();
-    }
-
-    @Override
     public void enterVar_decl(lexerGrammarParser.Var_declContext ctx)
     {
+        decl_type = ctx.var_type().getText();
         in_var_decl = true;
     }
 
