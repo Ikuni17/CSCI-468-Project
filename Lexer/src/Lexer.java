@@ -4,13 +4,32 @@ CSCI 468: Step 2, Parser
 February 27, 2017
 */
 
-
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import java.util.List;
 
-public class Lexer {
-    public static void main(String[] args) throws Exception {
+public class Lexer
+{
+    private static void output_ir(List<IRInstruction> instructions)
+    {
+        // Output ir preamble
+        System.out.println(";IR code");
+        System.out.println(";LABEL main");
+        System.out.println(";LINK");
+
+        // Output instructions
+        for (IRInstruction instruction : instructions)
+        {
+            System.out.println(";" + instruction);
+        }
+
+        // Output post
+        System.out.println(";RET");
+    }
+
+    public static void main(String[] args) throws Exception
+    {
         try
         {
             // Read in the micro file from the command line arguments
@@ -30,13 +49,11 @@ public class Lexer {
             ParseTreeWalker walker = new ParseTreeWalker();
             Listener listener = new Listener();
             walker.walk(listener, parser.program());
+
+            output_ir(listener.ir_generator.instructions);
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-        }
-        catch (Exception e) {
-            // General catch to handle any faulty lexing
-            System.out.println("Lexing failed: " + e);
         }
     }
 }
