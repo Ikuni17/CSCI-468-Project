@@ -6,11 +6,30 @@ public class Listener extends lexerGrammarBaseListener
     public SymbolTable current_scope;
     public int block_id = 1;
     public IRGenerator ir_generator;
+    public static final String END_PGM_LABEL = "END_PGM";
 
     public Listener()
     {
         current_scope = new SymbolTable(null, "GLOBAL");
         ir_generator = new IRGenerator();
+    }
+
+    @Override
+    public void exitPgm_body(lexerGrammarParser.Pgm_bodyContext ctx)
+    {
+        // Add the PGM_END label
+        IRInstruction end_instr = ir_generator.add_instruction();
+        end_instr.op = IRInstruction.OP.LABEL;
+        end_instr.result = Operand.label_operand(END_PGM_LABEL);
+    }
+
+    @Override
+    public void enterReturn_stmt(lexerGrammarParser.Return_stmtContext ctx)
+    {
+        // Add an unconditional jump to the end
+        IRInstruction jmp_instr = ir_generator.add_instruction();
+        jmp_instr.op = IRInstruction.OP.JUMP;
+        jmp_instr.result = Operand.label_operand(END_PGM_LABEL);
     }
 
     @Override
@@ -96,18 +115,47 @@ public class Listener extends lexerGrammarBaseListener
     public void enterIf_stmt(lexerGrammarParser.If_stmtContext ctx)
     {
         current_scope = new SymbolTable(current_scope, "BLOCK " + block_id);
+
+        // Create a label for the ELSE and END
+        String else_label = "IF_ELSE_" + block_id;
+        String end_label = "IF_END_" + block_id;
         block_id += 1;
+
+        // Push labels onto label stack so condition knows where to go
+        ir_generator.push_label(end_label);
+        ir_generator.push_label(else_label);
     }
 
     @Override
     public void exitIf_stmt(lexerGrammarParser.If_stmtContext ctx)
     {
         current_scope = current_scope.get_parent();
+
+        // Generate end label
+        String end_label = ir_generator.pop_label();
+        IRInstruction end_instr = ir_generator.add_instruction();
+        end_instr.op = IRInstruction.OP.LABEL;
+        end_instr.result = Operand.label_operand(end_label);
     }
 
     @Override
     public void enterElse_part(lexerGrammarParser.Else_partContext ctx)
     {
+        // Get labels
+        String else_label = ir_generator.pop_label();
+        String end_label = ir_generator.top_label();
+
+        // Add unconditional jump to END (so positive part doesn't execute else)
+        IRInstruction end_instr = ir_generator.add_instruction();
+        end_instr.op = IRInstruction.OP.JUMP;
+        end_instr.result = Operand.label_operand(end_label);
+
+        // Add ELSE label
+        IRInstruction else_instr = ir_generator.add_instruction();
+        else_instr.op = IRInstruction.OP.LABEL;
+        else_instr.result = Operand.label_operand(else_label);
+
+        // Don't create a new scope for else
         if (ctx.getChildCount() == 0)
         {
             return;
@@ -123,13 +171,77 @@ public class Listener extends lexerGrammarBaseListener
     public void enterWhile_stmt(lexerGrammarParser.While_stmtContext ctx)
     {
         current_scope = new SymbolTable(current_scope, "BLOCK " + block_id);
+        String begin_label = "WHILE_" + block_id + "_BEGIN";
+        String end_label = "WHILE_" + block_id + "_END";
         block_id += 1;
+
+        // Add instruction to jump here
+        IRInstruction begin_instr = ir_generator.add_instruction();
+        begin_instr.op = IRInstruction.OP.LABEL;
+        begin_instr.result = Operand.label_operand(begin_label);
+
+        // Add labels to stack, so condition knows where to jump and we can add end label later
+        ir_generator.push_label(begin_label);
+        ir_generator.push_label(end_label);
     }
 
     @Override
     public void exitWhile_stmt(lexerGrammarParser.While_stmtContext ctx)
     {
         current_scope = current_scope.get_parent();
+
+        // Get labels for this loop
+        String end_label = ir_generator.pop_label();
+        String begin_label = ir_generator.pop_label();
+
+        // Generate unconditional jump to begin
+        IRInstruction jump_begin = ir_generator.add_instruction();
+        jump_begin.op = IRInstruction.OP.JUMP;
+        jump_begin.result = Operand.label_operand(begin_label);
+
+        // Add ending label
+        IRInstruction end_instr = ir_generator.add_instruction();
+        end_instr.op = IRInstruction.OP.LABEL;
+        end_instr.result = Operand.label_operand(end_label);
+    }
+
+    @Override
+    public void enterCond(lexerGrammarParser.CondContext ctx)
+    {
+        // Create comparison instruction, should jump to label on top of stack (DOES NOT POP)
+        ir_generator.top_label();
+        IRInstruction comp_instr = ir_generator.push_instruction();
+        comp_instr.result = Operand.label_operand(ir_generator.top_label());
+
+        // Figure out comparison type, and invert it
+        if (ctx.compop().getText().equals("<"))
+        {
+            comp_instr.op = IRInstruction.OP.GE;
+        }
+        else if (ctx.compop().getText().equals(">"))
+        {
+            comp_instr.op = IRInstruction.OP.LE;
+        }
+        else if (ctx.compop().getText().equals("="))
+        {
+            comp_instr.op = IRInstruction.OP.NE;
+        }
+        else if (ctx.compop().getText().equals("!="))
+        {
+            comp_instr.op = IRInstruction.OP.EQ;
+        }
+        else if (ctx.compop().getText().equals("<="))
+        {
+            comp_instr.op = IRInstruction.OP.GT;
+        }
+        else if (ctx.compop().getText().equals(">="))
+        {
+            comp_instr.op = IRInstruction.OP.LT;
+        }
+        else
+        {
+            assert(false); // Unrecognized comparison op
+        }
     }
 
     @Override

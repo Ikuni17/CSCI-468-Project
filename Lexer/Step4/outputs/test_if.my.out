@@ -1,0 +1,52 @@
+;IR code
+;LABEL main
+;LINK
+;STOREI 7 num
+;STOREI 2 i
+;STOREI 42 a
+;GE i 5 IF_ELSE_1
+;ADDI num a num
+;GE i 3 IF_ELSE_2
+;ADDI num a num
+;JUMP IF_END_2
+;LABEL IF_ELSE_2
+;LABEL IF_END_2
+;JUMP IF_END_1
+;LABEL IF_ELSE_1
+;SUBI num a num
+;LABEL IF_END_1
+;WRITEI num
+;LABEL END_PGM
+;RET
+;tiny code
+var v_i
+var v_a
+var v_num
+move 7 v_num
+move 2 v_i
+move 42 v_a
+move 5 r0
+cmpi v_i r0
+jge IF_ELSE_1
+move v_num r0
+addi v_a r0
+move r0 v_num
+move 3 r0
+cmpi v_i r0
+jge IF_ELSE_2
+move v_num r0
+addi v_a r0
+move r0 v_num
+jmp IF_END_2
+label IF_ELSE_2
+label IF_END_2
+jmp IF_END_1
+label IF_ELSE_1
+move v_num r0
+subi v_a r0
+move r0 v_num
+label IF_END_1
+sys writei v_num
+label END_PGM
+sys halt
+end

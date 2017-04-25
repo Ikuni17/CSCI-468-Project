@@ -1,0 +1,100 @@
+;IR code
+;LABEL main
+;LINK
+;STOREI 1 a
+;STOREI 1 b
+;LABEL WHILE_1_BEGIN
+;GT a 80 WHILE_1_END
+;NE b 1 IF_ELSE_2
+;MULTI 1 a g
+;WRITEI g
+;WRITES newline
+;JUMP IF_END_2
+;LABEL IF_ELSE_2
+;LABEL IF_END_2
+;NE b 2 IF_ELSE_3
+;MULTI 2 a p
+;WRITEI p
+;WRITES newline
+;JUMP IF_END_3
+;LABEL IF_ELSE_3
+;LABEL IF_END_3
+;NE b 3 IF_ELSE_4
+;MULTI 3 a k
+;WRITEI k
+;WRITES newline
+;JUMP IF_END_4
+;LABEL IF_ELSE_4
+;MULTI 4 a u
+;WRITEI u
+;WRITES newline
+;LABEL IF_END_4
+;ADDI b 1 b
+;ADDI a 20 a
+;JUMP WHILE_1_BEGIN
+;LABEL WHILE_1_END
+;LABEL END_PGM
+;RET
+;tiny code
+var v_a
+var v_b
+var v_k
+var v_g
+var v_p
+var v_u
+str newline "\n"
+move 1 v_a
+move 1 v_b
+label WHILE_1_BEGIN
+move 80 r0
+cmpi v_a r0
+jgt WHILE_1_END
+move 1 r0
+cmpi v_b r0
+jne IF_ELSE_2
+move 1 r0
+muli v_a r0
+move r0 v_g
+sys writei v_g
+sys writes newline
+jmp IF_END_2
+label IF_ELSE_2
+label IF_END_2
+move 2 r0
+cmpi v_b r0
+jne IF_ELSE_3
+move 2 r0
+muli v_a r0
+move r0 v_p
+sys writei v_p
+sys writes newline
+jmp IF_END_3
+label IF_ELSE_3
+label IF_END_3
+move 3 r0
+cmpi v_b r0
+jne IF_ELSE_4
+move 3 r0
+muli v_a r0
+move r0 v_k
+sys writei v_k
+sys writes newline
+jmp IF_END_4
+label IF_ELSE_4
+move 4 r0
+muli v_a r0
+move r0 v_u
+sys writei v_u
+sys writes newline
+label IF_END_4
+move v_b r0
+addi 1 r0
+move r0 v_b
+move v_a r0
+addi 20 r0
+move r0 v_a
+jmp WHILE_1_BEGIN
+label WHILE_1_END
+label END_PGM
+sys halt
+end

@@ -1,0 +1,62 @@
+;IR code
+;LABEL main
+;LINK
+;STOREI 0 i
+;STOREI 0 a
+;STOREI 0 b
+;LABEL WHILE_1_BEGIN
+;EQ i 10 WHILE_1_END
+;READI p
+;LE p 10 IF_ELSE_2
+;ADDI a 1 a
+;JUMP IF_END_2
+;LABEL IF_ELSE_2
+;ADDI b 1 b
+;LABEL IF_END_2
+;ADDI i 1 i
+;JUMP WHILE_1_BEGIN
+;LABEL WHILE_1_END
+;WRITEI a
+;WRITES newline
+;WRITEI b
+;WRITES newline
+;LABEL END_PGM
+;RET
+;tiny code
+var v_a
+var v_b
+var v_i
+var v_p
+str newline "\n"
+move 0 v_i
+move 0 v_a
+move 0 v_b
+label WHILE_1_BEGIN
+move 10 r0
+cmpi v_i r0
+jeq WHILE_1_END
+sys readi v_p
+move 10 r0
+cmpi v_p r0
+jle IF_ELSE_2
+move v_a r0
+addi 1 r0
+move r0 v_a
+jmp IF_END_2
+label IF_ELSE_2
+move v_b r0
+addi 1 r0
+move r0 v_b
+label IF_END_2
+move v_i r0
+addi 1 r0
+move r0 v_i
+jmp WHILE_1_BEGIN
+label WHILE_1_END
+sys writei v_a
+sys writes newline
+sys writei v_b
+sys writes newline
+label END_PGM
+sys halt
+end

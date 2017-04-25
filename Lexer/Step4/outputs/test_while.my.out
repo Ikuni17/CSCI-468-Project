@@ -1,0 +1,54 @@
+   ;IR code
+   ;LABEL main
+   ;LINK
+   ;STOREF 7.0 num
+   ;STOREI 100 i
+   ;STOREI 1 j
+   ;STOREF num approx
+   ;LABEL WHILE_1_BEGIN
+   ;EQ i 0 WHILE_1_END
+   ;DIVF num approx $T2
+   ;ADDF approx $T2 $T1
+   ;MULTF 0.5 $T1 newapprox
+   ;STOREF newapprox approx
+   ;SUBI i 1 i
+   ;JUMP WHILE_1_BEGIN
+   ;LABEL WHILE_1_END
+   ;WRITEF approx
+   ;LABEL END_PGM
+   ;RET
+   ;tiny code
+   var v_i
+   var v_j
+   var v_newapprox
+   var v_approx
+   var v_num
+   move 7.0 v_num
+   move 100 v_i
+   move 1 v_j
+   move v_num r0
+   move r0 v_approx
+   label WHILE_1_BEGIN
+   move 0 r0
+   cmpi v_i r0
+   jeq WHILE_1_END
+   move v_num r0
+   divr v_approx r0
+   move r0 r1
+   move v_approx r0
+   addr r1 r0
+   move r0 r2
+   move 0.5 r0
+   mulr r2 r0
+   move r0 v_newapprox
+   move v_newapprox r0
+   move r0 v_approx
+   move v_i r0
+   subi 1 r0
+   move r0 v_i
+   jmp WHILE_1_BEGIN
+   label WHILE_1_END
+   sys writer v_approx
+   label END_PGM
+   sys halt
+   end

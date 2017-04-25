@@ -1,6 +1,5 @@
-import org.stringtemplate.v4.STRawGroupDir;
-
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -28,9 +27,9 @@ public class TinyEmitter
                 continue;
             }
 
-            _allocations.put(sym.get_name(), sym.get_name());
+            _allocations.put(sym.get_name(), "v_" + sym.get_name());
             result.append("var ");
-            result.append(sym.get_name());
+            result.append("v_" + sym.get_name());
             result.append("\n");
         }
 
@@ -39,12 +38,56 @@ public class TinyEmitter
         {
             switch (instr.op)
             {
-                case STOREI:
-                    gen_2ac(result, "move", get_opmrl(instr.operand_1), get_opmrl(instr.result));
+                case LABEL:
+                    gen_1ac(result, "label", instr.result.value);
                     break;
 
+                case JUMP:
+                    gen_1ac(result, "jmp", instr.result.value);
+                    break;
+
+                case GT:
+                    gen_cmp(result, instr.operand_1, instr.operand_2);
+                    gen_1ac(result, "jgt", instr.result.value);
+                    break;
+
+                case GE:
+                    gen_cmp(result, instr.operand_1, instr.operand_2);
+                    gen_1ac(result, "jge", instr.result.value);
+                    break;
+
+                case LT:
+                    gen_cmp(result, instr.operand_1, instr.operand_2);
+                    gen_1ac(result, "jlt", instr.result.value);
+                    break;
+
+                case LE:
+                    gen_cmp(result, instr.operand_1, instr.operand_2);
+                    gen_1ac(result, "jle", instr.result.value);
+                    break;
+
+                case NE:
+                    gen_cmp(result, instr.operand_1, instr.operand_2);
+                    gen_1ac(result, "jne", instr.result.value);
+                    break;
+
+                case EQ:
+                    gen_cmp(result, instr.operand_1, instr.operand_2);
+                    gen_1ac(result, "jeq", instr.result.value);
+                    break;
+
+                case STOREI:
                 case STOREF:
-                    gen_2ac(result, "move", get_opmrl(instr.operand_1), get_opmrl(instr.result));
+                    // Only one argument to MOVE may be a memory address
+                    if (!is_lit_or_reg(instr.operand_1))
+                    {
+                        gen_store_in_swap(result, get_opmr(instr.operand_1));
+                        gen_2ac(result, "move", SWAP_REG, get_opmr(instr.result));
+                    }
+                    else
+                    {
+                        gen_2ac(result, "move", get_opmrl(instr.operand_1), get_opmr(instr.result));
+                    }
                     break;
 
                 case ADDI:
@@ -114,11 +157,16 @@ public class TinyEmitter
                 case WRITES:
                     gen_1ac(result, "sys writes", get_opmr(instr.result));
                     break;
+
+                default:
+                    assert(false); // Unsupported op
+                    break;
             }
         }
 
         // Output post
-        result.append("sys halt");
+        result.append("sys halt\n");
+        result.append("end\n");
 
         // Output result
         return result.toString();
@@ -152,6 +200,26 @@ public class TinyEmitter
         gen_2ac(result, "move", SWAP_REG, opmr);
     }
 
+    private void gen_cmp(StringBuilder result, Operand lhs, Operand rhs)
+    {
+        // Store the RHS in the swap reg, because RHS of CMP instruction is required to be a register
+        gen_store_in_swap(result, get_opmrl(rhs));
+
+        // Determine if we should use float or integer comparison
+        if (lhs.is_int())
+        {
+            gen_2ac(result, "cmpi", get_opmrl(lhs), SWAP_REG);
+        }
+        else if (lhs.is_float())
+        {
+            gen_2ac(result, "cmpr", get_opmrl(lhs), SWAP_REG);
+        }
+        else
+        {
+            assert(false);
+        }
+    }
+
     private String get_opmrl(Operand operand)
     {
         if (operand.type == Operand.Type.INT_LIT || operand.type == Operand.Type.FLOAT_LIT)
@@ -171,12 +239,19 @@ public class TinyEmitter
             String reg = "r" + _next_reg;
             _next_reg += 1;
             _allocations.put(operand.value, reg);
+            _reg_variables.add(operand.value);
             return reg;
         }
 
         return _allocations.get(operand.value);
     }
 
+    private boolean is_lit_or_reg(Operand operand)
+    {
+        return operand.is_lit() || _reg_variables.contains(operand.value);
+    }
+
+    private HashSet<String> _reg_variables = new HashSet<>();
     private HashMap<String, String> _allocations = new HashMap<>();
     private int _next_reg = 1; // r0 is reserved for swap
 }

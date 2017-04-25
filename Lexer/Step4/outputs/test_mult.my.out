@@ -1,0 +1,47 @@
+   ;IR code
+   ;LABEL main
+   ;LINK
+   ;STOREI 1 a
+   ;STOREI 2 b
+   ;READI c
+   ;READI d
+   ;MULTI a c $T1
+   ;MULTI b d $T2
+   ;ADDI $T1 $T2 e
+   ;WRITEI c
+   ;WRITES newline
+   ;WRITEI d
+   ;WRITES newline
+   ;WRITEI e
+   ;WRITES newline
+   ;LABEL END_PGM
+   ;RET
+   ;tiny code
+   var v_a
+   var v_b
+   var v_c
+   var v_d
+   var v_e
+   str newline "\n"
+   move 1 v_a
+   move 2 v_b
+   sys readi v_c
+   sys readi v_d
+   move v_a r0
+   muli v_c r0
+   move r0 r1
+   move v_b r0
+   muli v_d r0
+   move r0 r2
+   move r1 r0
+   addi r2 r0
+   move r0 v_e
+   sys writei v_c
+   sys writes newline
+   sys writei v_d
+   sys writes newline
+   sys writei v_e
+   sys writes newline
+   label END_PGM
+   sys halt
+   end

@@ -8,6 +8,7 @@ public class IRGenerator
 {
     public IRGenerator()
     {
+        label_stack = new Stack<>();
         expr_instructions = new Stack<>();
         instructions = new ArrayList<>();
         next_temp = 1;
@@ -60,6 +61,22 @@ public class IRGenerator
         }
     }
 
+    public void push_label(String label)
+    {
+        label_stack.push(label);
+    }
+
+    public String pop_label()
+    {
+        return label_stack.pop();
+    }
+
+    public String top_label()
+    {
+        return label_stack.peek();
+    }
+
+    public Stack<String> label_stack;
     public Stack<IRInstruction> expr_instructions;
     public ArrayList<IRInstruction> instructions;
     public int next_temp;
