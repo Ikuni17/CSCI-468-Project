@@ -52,6 +52,18 @@ public class SymbolTable
         _symbols.put(name, symbol);
     }
 
+    public ArrayList<Symbol> get_symbols()
+    {
+        ArrayList<Symbol> result = new ArrayList<>();
+        result.addAll(_symbols.values());
+        for (SymbolTable child : _children)
+        {
+            result.addAll(child.get_symbols());
+        }
+
+        return result;
+    }
+
     @Override
     public String toString()
     {

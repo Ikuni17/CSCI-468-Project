@@ -366,5 +366,9 @@ public class Listener extends lexerGrammarBaseListener
         {
             instr.op = IRInstruction.OP.WRITEF;
         }
+        else if (symbol.get_type().equals("STRING"))
+        {
+            instr.op = IRInstruction.OP.WRITES;
+        }
     }
 }

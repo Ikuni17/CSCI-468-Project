@@ -26,6 +26,7 @@ public class Lexer
 
         // Output post
         System.out.println(";RET");
+        System.out.println(";tiny code");
     }
 
     public static void main(String[] args) throws Exception
@@ -51,6 +52,9 @@ public class Lexer
             walker.walk(listener, parser.program());
 
             output_ir(listener.ir_generator.instructions);
+            TinyEmitter emitter = new TinyEmitter();
+            String result = emitter.emit_code(listener.current_scope, listener.ir_generator.instructions);
+            System.out.println(result);
         }
         catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

@@ -40,5 +40,4 @@ public class Symbol
     private String _type;
     private String _name;
     private String _value;
-    private int _reg_number;
 }

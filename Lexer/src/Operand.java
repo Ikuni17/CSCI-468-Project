@@ -82,6 +82,11 @@ public class Operand
         return type == Type.FLOAT_VAR || type == Type.FLOAT_LIT;
     }
 
+    public boolean is_lit()
+    {
+        return type == Type.INT_LIT || type == Type.FLOAT_LIT;
+    }
+
     public Type type;
     public String value;
 }

@@ -27,6 +27,7 @@ public class IRInstruction
         READF,
         WRITEI,
         WRITEF,
+        WRITES,
         UNDETERMINED_RESERVED,
     }
 
